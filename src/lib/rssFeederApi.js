@@ -57,6 +57,18 @@ const q={
 `)(vars)
     return res
   },
+  bookmarkStory: function(vars) {
+    var res=rssFeederApi().mutate(`
+      bookmarkStory(input: {storyId: $storyId}){storyId read_later_at}
+`)(vars)
+    return res
+  },
+  unbookmarkStory: function(vars) {
+    var res=rssFeederApi().mutate(`
+      unbookmarkStory(input: {storyId: $storyId}){storyId}
+`)(vars)
+    return res
+  },
 }
 //, {}, }
 

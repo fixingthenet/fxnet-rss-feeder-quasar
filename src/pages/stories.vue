@@ -15,8 +15,8 @@
       <div v-for="(story,index) in stories" v-bind:key="story.node.id" :id="index">
         <story :story="story.node"
         v-on:opened="onOpened(story.node.id)"
-        v-on:unbookmarked="onunbookmarked(story.node.id)"
-        v-on:bookmarked="onbookmarked(story.node.id)"
+        v-on:unbookmarked="onUnbookmarked(story.node.id)"
+        v-on:bookmarked="onBookmarked(story.node.id)"
         />
       </div>
       </transition-group>

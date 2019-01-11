@@ -88,10 +88,10 @@ export default {
       console.log("mark opened");
       rssApi.openStory({storyId: this.story.id}).
         then((result)=> {
-          console.log("result: ",
-          result.openStory.last_opened_at,
-          this.story.id
-          );
+//          console.log("result: ",
+//          result.openStory.last_opened_at,
+//          this.story.id
+//          );
           this.story.last_opened_at = result.openStory.last_opened_at
         }).
         catch((e) =>{
@@ -102,10 +102,22 @@ export default {
     toggleMarked(event, done) {
       console.log("toggle marked");
       if (this.story.read_later_at)  {
-        rssApi.unbookmarkStory({storyId: this.story.id});
+        rssApi.unbookmarkStory({storyId: this.story.id}).
+        then((result)=> {
+          this.story.read_later_at = null
+        }).
+        catch((e) =>{});
         this.$emit('unbookmarked');
      } else {
-        rssApi.bookmarkStory({storyId: this.story.id});
+        rssApi.bookmarkStory({storyId: this.story.id}).
+        then((result)=> {
+          console.log("result: ",
+          result.bookmarkStory.read_later_at,
+          this.story.id
+          );
+          this.story.read_later_at = result.bookmarkStory.read_later_at
+        }).
+        catch((e) =>{});
         this.$emit('bookmarked');
       }
     },
