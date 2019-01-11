@@ -1,0 +1,10 @@
+{
+  "project": "fxnet-rss-feeder-quasar",
+    
+  "git": "github.com/fixingthenet/fxnet-rss-feeder-quasar",
+  "path": "fxnet-rss-feeder-quasar",
+  "docker": {
+    "repo": "fxnet",
+    "name": "fxnet-rss-feeder-quasar"
+  }
+}
