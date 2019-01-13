@@ -4,7 +4,7 @@
 
     <a :href="story.permalink" target="_feeder" v-on:click="markOpened">{{story.title}}</a> <br/>
     <div class="row">
-      <div class="feed col-7">{{story.feed.name}}</div>
+      <div class="feed col-9">{{story.feed.name}}</div>
       <div class="time col-3">{{publishedTime}}</div>
     </div>
   </q-card-title>

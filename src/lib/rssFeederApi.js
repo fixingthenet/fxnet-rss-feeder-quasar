@@ -30,7 +30,10 @@ const q={
     var res=rssFeederApi().query(`
        stories(orderBy: AGE,
                first: $limit,
-               onlyUnread: $onlyUnread) {
+               onlyUnread: $onlyUnread,
+               onlyMarked: $onlyMarked,
+               after: $after
+          ) {
          pageInfo { hasNextPage endCursor startCursor}
          edges {
            node {

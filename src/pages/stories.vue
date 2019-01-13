@@ -4,24 +4,26 @@
   <!-- Tabs - notice slot="title" -->
       <q-route-tab default  to="/stories/new" slot="title" name="new" icon="today" />
       <q-route-tab slot="title" to="/stories/all" name="all" icon="radio button checked"  />
-      <q-route-tab slot="title" to="/stories/marked" name="marked" icon="star rate" />
+      <q-route-tab slot="title" to="/stories/bookmarked" name="bookmarked" icon="star rate" />
     </q-tabs>
 <div class="tabs-button">
       <q-btn flat big class="tabs-button" icon="cached" label="Reload"  @click="tabSelected" />
     </div>
-    <div class="list item-inset-delimiter auto">
-    <q-infinite-scroll :handler="loadMore">
-    <transition-group name="list" tag="div">
-      <div v-for="(story,index) in stories" v-bind:key="story.node.id" :id="index">
+
+
+   <q-infinite-scroll :handler="loadMore">
+      <transition-group name="list" tag="div">
+        <div v-for="(story,index) in stories" v-bind:key="story.node.id" :id="index">
         <story :story="story.node"
-        v-on:opened="onOpened(story.node.id)"
-        v-on:unbookmarked="onUnbookmarked(story.node.id)"
-        v-on:bookmarked="onBookmarked(story.node.id)"
+        v-on:opened="onOpened(index)"
+        v-on:unbookmarked="onUnbookmarked(index)"
+        v-on:bookmarked="onBookmarked(index)"
         />
-      </div>
-      </transition-group>
+          </div>
       <q-spinner-dots slot="message" :size="40"></q-spinner-dots>
-    </q-infinite-scroll>
+    </transition-group>
+</q-infinite-scroll>
+
    </div>
   </q-page>
 </template>
@@ -50,28 +52,83 @@ export default {
   },
   data() {
     return {
-      currentTab: 'new',
-      edges: [],
-      stories: []
+      currentTab: this.$route.params.tab,
+      stories: [],
+      lastAfter:null,
+      nextAfter: null,
+    }
+  },
+  watch: {
+    '$route.params.tab'(to,from) {
+      this.tabSelected()
     }
   },
   created() {
-    rssFeederApi.stories({limit: 10, onlyUnread: false}).
-    then((result) => {
-      console.log(result);
-      this.stories=result.stories.edges;
-    }).
-    catch( (e) => {
-      console.log(e)
-    })
+//    this.tabSelected()
   },
   methods: {
-    onOpened() {},
-    onBookmarked() {},
-    onUnbookmarked() {},
-    tabSelected() {
+    onOpened(index) {
+      if (this.currentTab=='new') {
+        this.stories.splice(index, 1)
+      }
     },
-    loadMore() {
+    onBookmarked(index) {
+      if (this.currentTab=='new') {
+        this.stories.splice(index, 1)
+      }
+    },
+    onUnbookmarked(index) {
+      if (this.currentTab=='bookmarked') {
+        this.stories.splice(index, 1)
+      }
+    },
+    tabSelected() {
+      console.log("tab selected: ", this.$route.params.tab)
+      this.stories=[];
+      this.nextAfter=null;
+      this.loadMore();
+
+    },
+    loadMore(index,done) {
+      console.log("loadMore: ", this.nextAfter, this.lastAfter);
+      if (this.nextAfter != null && this.nextAfter == this.lastAfter) {
+        if (done) {done()}
+        return
+      }
+      this.lastAfter=this.nextAfter;
+      var newTab=this.$route.params.tab;
+      var filters={limit: 20,
+                   onlyUnread: false,
+                   onlyMarked: false,
+                   after:  this.nextAfter || ""
+                   }
+
+      if (newTab=='new') {
+        filters.onlyUnread=true
+      }
+      if (newTab=='bookmarked') {
+        filters.onlyMarked=true
+      }
+      rssFeederApi.stories(filters).
+      then((result) => {
+        console.log(result);
+        if (this.nextAfter==result.stories.pageInfo.endCursor) {
+        //ignore results
+          console.log("same endcursor");
+        } else  {
+          if (result.stories.pageInfo.hasNextPage) {
+            this.nextAfter=result.stories.pageInfo.endCursor;
+          }
+          this.stories=this.stories.concat(result.stories.edges);
+        }
+        if (done) {done()}
+
+      }).
+      catch( (e) => {
+        if (done) {done()}
+        console.log(e)
+
+      })
     }
   }
 }
