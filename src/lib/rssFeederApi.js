@@ -26,6 +26,24 @@ const rssFeederApi = function() {
 }
 
 const q={
+
+  feeds: function(vars) {
+    var res=rssFeederApi().query(`
+       feeds(  first: $limit,
+               after: $after
+          ) {
+         pageInfo { hasNextPage endCursor startCursor}
+         edges {
+           node {
+             id name url
+           }
+         }
+       }
+
+`)(vars)
+    return res
+  },
+
   stories: function(vars) {
     var res=rssFeederApi().query(`
        stories(orderBy: AGE,
@@ -48,6 +66,20 @@ const q={
 `)(vars)
     return res
   },
+  feedDelete: function(vars) {
+    var res=rssFeederApi().mutate(`
+      deleteFeed(input: {feedId: $feedId}){feedId}
+`)(vars)
+    return res
+  },
+
+  feedCreate: function(vars) {
+    var res=rssFeederApi().mutate(`
+      createFeed(input: {name: $name, url: $url}){feed { id name url }}
+`)(vars)
+    return res
+  },
+
   openStory: function(vars) {
     var res=rssFeederApi().mutate(`
       openStory(input: {storyId: $storyId}){storyId last_opened_at}

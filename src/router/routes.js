@@ -7,6 +7,7 @@ export default [
       { path: 'stories/:tab',
         component: () => import('pages/stories') },
       { path: 'feeds', component: () => import('pages/feeds') },
+      { path: 'feeds/add', component: () => import('pages/feedAdd') },
     ]
   },
 
