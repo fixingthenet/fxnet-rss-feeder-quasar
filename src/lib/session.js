@@ -10,6 +10,7 @@ class Session {
       console.log("no token")
     }
   }
+
   expiresAt() {
     if (this.token) {
       return new Date(this.decoded.exp*1000)
@@ -25,11 +26,15 @@ class Session {
   isExpired() {
     return this.timeLeft() < 0
   }
-  
+
   user() {
-    return this.decoded.user
+    if (this.token) {
+       return this.decoded.user
+    } else {
+       return { login: "Guest", id: 5}
+    }
   }
-  
+
   toString() {
     return moment(this.expiresAt()).fromNow()
   }

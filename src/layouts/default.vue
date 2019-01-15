@@ -19,7 +19,7 @@
         <q-toolbar-title>
           {{ appName }}
         </q-toolbar-title>
-
+{{ this.$store.state.session.session.user().login }}
       <q-btn
         flat round
         icon="exit_to_app"
@@ -30,7 +30,7 @@
 
   <q-layout-drawer side="left" v-model="leftDrawerOpen">
     <q-list no-border link inset-separator>
-      <q-list-header>Session</q-list-header>
+      <q-list-header>RSS Feeder</q-list-header>
       <q-item to="/">
         <q-item-side icon="chat" />
         <q-item-main label="Storries"/>
