@@ -3,6 +3,11 @@ export default [
     path: '/',
     component: () => import('layouts/default'),
     children: [
+      { path: 'login',
+        component: () => import('pages/login'),
+        meta: {public: true}
+      },
+      //
       { path: '', redirect: '/stories/new'},
       { path: 'stories/:tab',
         component: () => import('pages/stories') },

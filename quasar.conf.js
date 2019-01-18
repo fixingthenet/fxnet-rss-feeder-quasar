@@ -4,7 +4,8 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
-      'vee-validate'
+      'vee-validate',
+      'fxnet',
     ],
     css: [
       'app.styl'
