@@ -9,7 +9,7 @@
     </div>
   </q-card-title>
   <q-card-main>
-    {{story.body}}
+    {{story.safeBody}}
     <br/>
     <span> {{moment(story.last_opened_at)}}- </span>
   </q-card-main>

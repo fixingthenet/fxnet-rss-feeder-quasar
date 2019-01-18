@@ -11,7 +11,7 @@
     </div>
 
 
-   <q-infinite-scroll :handler="loadMore">
+   <q-infinite-scroll :offset=50 :handler="loadMore">
       <transition-group name="list" tag="div">
         <div v-for="(story,index) in stories" v-bind:key="story.node.id" :id="index">
         <story :story="story.node"

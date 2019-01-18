@@ -56,7 +56,7 @@ const q={
          edges {
            node {
              id title
-             published body permalink entry_id
+             published safeBody permalink entry_id
              read_later_at last_opened_at
              feed { id name }
            }
