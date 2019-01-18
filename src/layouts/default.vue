@@ -69,7 +69,7 @@ export default {
     logout() {
       this.$store.commit('session/logout');
       console.log("logout")
-      this.$router.push({path: "/login"});
+      this.$router.push({path: "/"});
     }
   }
 }
