@@ -55,7 +55,7 @@ const q={
          pageInfo { hasNextPage endCursor startCursor}
          edges {
            node {
-             id title
+             id safeTitle
              published safeBody permalink entry_id
              read_later_at last_opened_at
              feed { id name }

@@ -7,6 +7,15 @@ module.exports = function (ctx) {
       'vee-validate',
       'fxnet',
     ],
+    htmlVariables: { 
+      auth_ui_url: process.env.AUTH_UI_URL || '${AUTH_UI_URL}',
+      rss_feeder_ui_url: process.env.RSS_FEEDER_UI_URL || '${RSS_FEEDER_UI_URL}',
+      rss_feeder_api_url: process.env.RSS_FEEDER_API_URL || '${RSS_FEEDER_API_URL}',
+      
+      productName: process.env.APP_NAME || '${APP_NAME}',
+      productDescription: process.env.APP_DESCRIPTION || '${APP_DESCRIPTION}',
+      
+    },
     css: [
       'app.styl'
     ],

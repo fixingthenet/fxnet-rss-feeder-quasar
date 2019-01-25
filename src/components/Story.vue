@@ -2,14 +2,14 @@
 <q-card>
   <q-card-title>
 
-    <a :href="story.permalink" target="_feeder" v-on:click="markOpened">{{story.title}}</a> <br/>
+    <a :href="story.permalink" target="_feeder" v-on:click="markOpened">{{story.safeTitle}}</a> <br/>
     <div class="row">
       <div class="feed col-9">{{story.feed.name}}</div>
       <div class="time col-3">{{publishedTime}}</div>
     </div>
   </q-card-title>
   <q-card-main>
-    {{story.safeBody}}
+    {{shortened(story.safeBody,500)}}
     <br/>
     <span> {{moment(story.last_opened_at)}}- </span>
   </q-card-main>
@@ -50,6 +50,14 @@ export default {
     }
   },
   methods: {
+    shortened(sth,lth) {
+      if (sth && sth.slice) {
+        return sth.slice(0,lth)
+      } else {
+        return ''
+      }
+    },
+
     moment(arg) {
       if (arg) {
         return mmt(Date.parse(arg)).fromNow()

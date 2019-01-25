@@ -19,12 +19,7 @@
         <q-toolbar-title>
           {{ appName }}
         </q-toolbar-title>
-{{ this.$store.state.session.session.user().login }}
-      <q-btn
-        flat round
-        icon="exit_to_app"
-        @click="logout"
-      />
+        <logout-button/>
       </q-toolbar>
     </q-layout-header>
 
@@ -51,26 +46,21 @@
 
 <script>
 import { openURL } from 'quasar'
-import Config from '../lib/config'
-const config = new Config();
-//console.log(config);
-import store from '../store'
+import LogoutButton from '../components/LogoutButton.vue'
 
 export default {
   name: 'LayoutDefault',
+  components: {
+    LogoutButton
+  },
   data () {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
-      appName: config.get('app_name')
+      appName: this.$fx_config.app_name,
     }
   },
   methods: {
     openURL,
-    logout() {
-      this.$store.commit('session/logout');
-      console.log("logout")
-      this.$router.push({path: "/"});
-    }
   }
 }
 </script>
